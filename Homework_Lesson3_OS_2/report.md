@@ -63,9 +63,9 @@ sudo netfilter-persistent save
 
 ```bash
 # С хостовой ОС к VM1
-ssh mikron@92.168.56.2
+ssh mikron@192.168.56.2
 # С хостовой ОС к VM2
-ssh mikron2@92.168.56.4
+ssh mikron2@192.168.56.4
 ```
 ![alt text](img/hostToVM1andVM2.png)
 
