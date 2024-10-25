@@ -27,7 +27,7 @@ https://habr.com/ru/post/52871/
 ### Согласно документации MongoDB проходимся по этапам: 
 ![alt text](img/mongodbInstall.png)
 
-# Выплнямем
+# Выполняем
 
 ![alt text](img/install_mongoDB.png)
 ```bash
@@ -92,7 +92,7 @@ sudo systemctl restart mongod
 
 ![alt text](img/add_security.png)
 
-Теперь пользователь **manager** сможет только читать данные из коллекции data, но не сможет их изменять.
+### Теперь пользователь **manager** сможет только читать данные из коллекции data, но не сможет их изменять.
 
 ![alt text](img/preview_privileges_of_manager.png)
 
