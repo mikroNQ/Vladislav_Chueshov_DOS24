@@ -25,7 +25,7 @@ https://habr.com/ru/post/52871/
 1. Установка MongoDB (для Ubuntu):
 
 ### Согласно документации MongoDB проходимся по этапам: 
-![alt text](img/mongodbinstall.png)
+![alt text](img/mongodbInstall.png)
 
 # Выпллнямем
 
