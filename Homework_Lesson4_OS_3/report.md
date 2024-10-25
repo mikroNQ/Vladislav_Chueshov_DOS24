@@ -97,3 +97,8 @@ sudo systemctl restart mongod
 ![alt text](img/preview_privileges_of_manager.png)
 
 
+# Task 3
+### Bash. Замена существующего расширения в имени файла на заданное
+
+
+![alt text](img/script_task_3.png)
