@@ -27,7 +27,7 @@ https://habr.com/ru/post/52871/
 ### Согласно документации MongoDB проходимся по этапам: 
 ![alt text](img/mongodbInstall.png)
 
-# Выпллнямем
+# Выплнямем
 
 ![alt text](img/install_mongoDB.png)
 ```bash
