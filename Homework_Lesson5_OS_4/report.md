@@ -59,6 +59,7 @@ nano app.js
 MYAPP_PORT=3000 node app.js
 curl http://localhost:3000    # проверка в другом терминале
 ```
+![alt text](img/Screenshot%202024-10-28%20at%2010.57.50 AM.png)
 
 3. Создание systemd сервиса:
 ```bash
