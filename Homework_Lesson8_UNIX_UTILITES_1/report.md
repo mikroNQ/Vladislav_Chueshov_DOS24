@@ -110,8 +110,8 @@ gsutil ls gs://tms_123121419djscj_test/Vladislav_Chueshov/
 
 ## 1. Расширение виртуального диска
 ```bash
-# Выключить VM
-# Перейти в директорию VirtualBox на Mac
+# Выключаем VM
+# Переходим в директорию VirtualBox на Mac
 cd /Applications/VirtualBox.app/Contents/MacOS/
 
 # Расширить диск с 25GB до 27GB (25600 MB + 2048 MB = 27648 MB)
@@ -226,7 +226,7 @@ w    # записать изменения
 ```bash
 # Создание физического тома (PV)
 sudo pvcreate /dev/sda5
-# При запросе о очистке существующей подписи ввести 'y'
+# При запросе о очистке существующей подписи вводим 'y'
 
 # Проверка PV
 sudo pvs
@@ -295,11 +295,6 @@ sudo lvextend -L +1G /dev/vg_data/lv_data
 
 # Расширение файловой системы
 sudo resize2fs /dev/vg_data/lv_data
-```
-
-### Создание снапшота:
-```bash
-sudo lvcreate -s -n snap_name -L 1G /dev/vg_data/lv_data
 ```
 
 ## Проверка работоспособности:
