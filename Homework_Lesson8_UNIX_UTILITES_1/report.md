@@ -362,6 +362,8 @@ crontab -e
 # Демонстрация 
 ![alt text](/Homework_Lesson8_UNIX_UTILITES_1/img/mirroring.png)
 
+### Репликация работает в обе стороны
+
 
 # Задание 3. *синхронизировать папки на двух вмках и ещё на GCP
 
