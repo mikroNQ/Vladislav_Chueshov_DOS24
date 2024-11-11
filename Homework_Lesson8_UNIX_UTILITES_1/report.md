@@ -104,3 +104,225 @@ gsutil -m rsync -r ~/Vladislav_Chueshov gs://tms_123121419djscj_test/Vladislav_C
 gsutil ls gs://tms_123121419djscj_test/Vladislav_Chueshov/
 ```
 ![alt text](/Homework_Lesson8_UNIX_UTILITES_1/img/ls_gs.png)
+
+
+## Задание 2.
+
+## 1. Расширение виртуального диска
+```bash
+# Выключить VM
+# Перейти в директорию VirtualBox на Mac
+cd /Applications/VirtualBox.app/Contents/MacOS/
+
+# Расширить диск с 25GB до 27GB (25600 MB + 2048 MB = 27648 MB)
+./VBoxManage modifyhd "/Users/ваше_имя/VirtualBox VMs/Ubuntu/Ubuntu.vdi" --resize 27648
+```
+
+## 2. Проверка текущего состояния дисков
+```bash
+# После загрузки VM
+sudo fdisk -l
+lsblk
+
+# Пример вывода lsblk:
+NAME   MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS
+sda      8:0    0    27G  0 disk 
+├─sda1   8:1    0     1G  0 part /boot/efi
+├─sda2   8:2    0    15G  0 part /
+├─sda3   8:3    0     5G  0 part /home
+└─sda4   8:4    0   3.9G  0 part /boot
+```
+
+## 3. Создание нового раздела
+```bash
+sudo fdisk /dev/sda
+
+# Команды в fdisk:
+n    # новый раздел
+[Enter]  # primary раздел
+[Enter]  # номер раздела (5)
+[Enter]  # начальный сектор по умолчанию
+[Enter]  # конечный сектор по умолчанию
+w    # записать и выйти
+```
+
+## 4. Форматирование и монтирование
+```bash
+# Форматирование раздела
+sudo mkfs.ext4 /dev/sda5
+
+# Создание точки монтирования
+sudo mkdir /data
+
+# Монтирование
+sudo mount /dev/sda5 /data
+```
+
+## 5. Настройка автомонтирования
+```bash
+# Получение UUID
+sudo blkid /dev/sda5
+# Пример UUID="3dfd8c68-8793-465d-b926-7540108cb524"
+
+# Редактирование fstab
+sudo nano /etc/fstab
+
+# Добавить строку:
+UUID=3dfd8c68-8793-465d-b926-7540108cb524 /data ext4 defaults 0 2
+```
+
+## 6. Проверка
+```bash
+# Проверка монтирования
+sudo mount -a
+
+# Проверка размеров и монтирования
+df -h
+```
+
+## Полезные команды для диагностики:
+```bash
+lsblk        # показать структуру дисков
+df -h        # показать использование дискового пространства
+sudo blkid   # показать UUID разделов
+mount        # показать примонтированные файловые системы
+```
+
+## Структура /etc/fstab:
+```
+UUID=xxx  /точка_монтирования  тип_фс  опции  dump  pass
+```
+- dump: 0 (отключить бэкап)
+- pass: 2 (проверка после корневого раздела)
+
+# Отчет: Настройка LVM в Ubuntu Server (VirtualBox)
+
+## 1. Подготовка раздела
+```bash
+# Проверка текущих разделов
+sudo fdisk -l
+lsblk
+
+# Удаление существующего раздела (если есть)
+sudo fdisk /dev/sda
+d    # удалить раздел
+5    # номер раздела
+w    # записать изменения
+
+# Создание нового раздела для LVM
+sudo fdisk /dev/sda
+n    # новый раздел
+[Enter]  # primary
+5    # номер раздела
+[Enter]  # начальный сектор (по умолчанию)
+[Enter]  # конечный сектор (по умолчанию)
+t    # сменить тип
+5    # выбрать раздел
+8e   # код для Linux LVM
+w    # записать изменения
+```
+
+## 2. Настройка LVM
+```bash
+# Создание физического тома (PV)
+sudo pvcreate /dev/sda5
+# При запросе о очистке существующей подписи ввести 'y'
+
+# Проверка PV
+sudo pvs
+
+# Создание группы томов (VG)
+sudo vgcreate vg_data /dev/sda5
+
+# Проверка VG
+sudo vgs
+
+# Создание логического тома (LV)
+sudo lvcreate -l 100%FREE -n lv_data vg_data
+
+# Проверка LV
+sudo lvs
+```
+
+## 3. Создание файловой системы и монтирование
+```bash
+# Форматирование
+sudo mkfs.ext4 /dev/vg_data/lv_data
+
+# Создание точки монтирования
+sudo mkdir -p /data
+
+# Монтирование
+sudo mount /dev/vg_data/lv_data /data
+
+# Настройка автомонтирования
+sudo nano /etc/fstab
+# Добавить строку:
+/dev/vg_data/lv_data    /data    ext4    defaults    0    2
+
+# Перезагрузка systemd
+sudo systemctl daemon-reload
+
+# Проверка монтирования
+sudo mount -a
+df -h
+```
+
+## 4. Проверка настроек
+```bash
+# Просмотр всех компонентов LVM
+sudo pvdisplay  # физические тома
+sudo vgdisplay  # группы томов
+sudo lvdisplay  # логические тома
+
+# Проверка монтирования
+df -h
+```
+
+## 5. Полезные команды для управления LVM
+
+### Просмотр информации:
+```bash
+sudo pvs    # краткая информация о физических томах
+sudo vgs    # краткая информация о группах томов
+sudo lvs    # краткая информация о логических томах
+```
+
+### Расширение тома:
+```bash
+# Расширение логического тома
+sudo lvextend -L +1G /dev/vg_data/lv_data
+
+# Расширение файловой системы
+sudo resize2fs /dev/vg_data/lv_data
+```
+
+### Создание снапшота:
+```bash
+sudo lvcreate -s -n snap_name -L 1G /dev/vg_data/lv_data
+```
+
+## Проверка работоспособности:
+```bash
+# Создание тестового файла
+sudo touch /data/test.txt
+
+# Проверка прав доступа
+ls -l /data
+
+# Проверка доступного места
+df -h /data
+```
+
+## 6. Настройка прав доступа
+
+```bash
+# Изменение владельца директории
+sudo chown пользователь:пользователь /data
+
+# Установка прав доступа (rwxr-xr-x)
+sudo chmod 755 /data
+
+# Проверка прав
+ls -la /data
+```
