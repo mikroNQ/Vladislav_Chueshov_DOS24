@@ -111,7 +111,7 @@ gsutil ls gs://tms_123121419djscj_test/Vladislav_Chueshov/
 ## 1. Расширение виртуального диска
 ```bash
 # Выключаем VM
-# Переходим в директорию VirtualBox на Mac
+# Переходим в директорию VirtualBox
 cd /Applications/VirtualBox.app/Contents/MacOS/
 
 # Расширить диск с 25GB до 27GB (25600 MB + 2048 MB = 27648 MB)
