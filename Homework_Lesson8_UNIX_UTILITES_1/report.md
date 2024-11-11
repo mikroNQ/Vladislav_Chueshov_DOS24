@@ -323,4 +323,40 @@ ls -la /data
 ```
 
 ## Задание 3. *синхронизировать между собой две папки на двух разных вм-ках
+ 
+# Устанавливаем rsync 
+sudo apt-get install rsync
+
+# Создаём SSH-ключ для беспарольной авторизации
+ssh-keygen -t rsa
+
+# Копируем публичный ключ на другую машину
+ssh-copy-id username@ip_другой_vm
+
+```bash
+Всё это проделываем на вдух vm
+```
+# Для удобвста создадим скрипт и автозапуск 
+
+``` bash
+#!/bin/bash
+
+SRC="/home/mikron/rsync_home_work/"
+REMOTE="mikron2@192.168.56.4"
+REMOTE_DIR="/home/mikron2/rsync_home_work/"
+
+if ping -c 1 192.168.56.4 &> /dev/null; then
+    rsync -avz $SRC $REMOTE:$REMOTE_DIR
+    rsync -avz $REMOTE:$REMOTE_DIR $SRC
+fi
+```
+# Настраиваем crontab
+
+```bash
+# Открываем crontab
+crontab -e
+
+# Добавляем строку для запуска каждые 5 минут
+*/5 * * * * /path/to/script.sh
+```
 
