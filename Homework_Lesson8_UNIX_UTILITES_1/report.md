@@ -106,7 +106,7 @@ gsutil ls gs://tms_123121419djscj_test/Vladislav_Chueshov/
 ![alt text](/Homework_Lesson8_UNIX_UTILITES_1/img/ls_gs.png)
 
 
-## Задание 2.
+## Задание 2. FDISK + LVM
 
 ## 1. Расширение виртуального диска
 ```bash
@@ -321,3 +321,6 @@ sudo chmod 755 /data
 # Проверка прав
 ls -la /data
 ```
+
+## Задание 3. *синхронизировать между собой две папки на двух разных вм-ках
+
