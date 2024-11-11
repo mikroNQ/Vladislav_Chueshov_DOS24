@@ -359,4 +359,6 @@ crontab -e
 # Добавляем строку для запуска каждые 5 минут
 */5 * * * * /path/to/script.sh
 ```
+# Демонстрация 
+![alt text](/Homework_Lesson8_UNIX_UTILITES_1/img/mirroring.png)
 
