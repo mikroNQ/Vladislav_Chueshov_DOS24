@@ -411,7 +411,7 @@ sync {
         owner = true,
         group = true,
         perms = true,
-        _extra = {"--delete"}
+        _extra = {"--update"}
     },
     delay = 1
 }
@@ -439,7 +439,7 @@ sync {
         owner = true,
         group = true,
         perms = true,
-        _extra = {"--delete"}
+        _extra = {"--update"}
     },
     delay = 1
 }
