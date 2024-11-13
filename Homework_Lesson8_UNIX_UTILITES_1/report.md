@@ -365,6 +365,177 @@ crontab -e
 ### Репликация работает в обе стороны
 
 
+# Улучшил с помощью тула lsyncd (инструмент для синхронизации файлов и каталогов в реальном времени)
+
+# Настройка двусторонней синхронизации директорий с помощью lsyncd
+
+```bash
+sudo apt update
+sudo apt install lsyncd 
+```
+
+## 1. Создание директорий и настройка прав (на обеих VM)
+
+```bash
+# Создание директории для логов
+sudo mkdir -p /var/log/lsyncd
+sudo chown -R mikron:mikron /var/log/lsyncd  # На VM1
+sudo chown -R mikron2:mikron2 /var/log/lsyncd  # На VM2
+sudo chmod 755 /var/log/lsyncd
+
+# Создание директории для конфигурации
+sudo mkdir -p /etc/lsyncd
+
+```
+
+## 2. Конфигурация lsyncd
+
+### На VM1 (/etc/lsyncd/lsyncd.conf.lua):
+
+```lua
+settings {
+    logfile = "/var/log/lsyncd/lsyncd.log",
+    statusFile = "/var/log/lsyncd/lsyncd-status.log",
+    statusInterval = 1,
+    maxProcesses = 1
+}
+
+sync {
+    default.rsyncssh,
+    source = "/path/to/source/dir/",
+    host = "mikron2@192.168.56.4",
+    targetdir = "/path/to/target/dir/",
+    rsync = {
+        archive = true,
+        verbose = true,
+        owner = true,
+        group = true,
+        perms = true,
+        _extra = {"--delete"}
+    },
+    delay = 1
+}
+
+```
+
+### На VM2 (/etc/lsyncd/lsyncd.conf.lua):
+
+```lua
+settings {
+    logfile = "/var/log/lsyncd/lsyncd.log",
+    statusFile = "/var/log/lsyncd/lsyncd-status.log",
+    statusInterval = 1,
+    maxProcesses = 1
+}
+
+sync {
+    default.rsyncssh,
+    source = "/path/to/source/dir/",
+    host = "mikron@192.168.56.2",
+    targetdir = "/path/to/target/dir/",
+    rsync = {
+        archive = true,
+        verbose = true,
+        owner = true,
+        group = true,
+        perms = true,
+        _extra = {"--delete"}
+    },
+    delay = 1
+}
+
+```
+
+## 3. Настройка systemd сервиса
+
+### На VM1 ([mikron@192.168.56.2](mailto:mikron@192.168.56.2))
+
+```bash
+sudo nano /etc/systemd/system/lsyncd.service
+
+```
+
+```
+[Unit]
+Description=Lsyncd - Live Syncing Daemon
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+ExecStart=/usr/bin/lsyncd -nodaemon /etc/lsyncd/lsyncd.conf.lua
+Restart=always
+RestartSec=3
+User=mikron
+Group=mikron
+KillMode=process
+
+[Install]
+WantedBy=multi-user.target
+
+```
+
+### На VM2 ([mikron2@192.168.56.4](mailto:mikron2@192.168.56.4))
+
+```bash
+sudo nano /etc/systemd/system/lsyncd.service
+
+```
+
+```
+[Unit]
+Description=Lsyncd - Live Syncing Daemon
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+ExecStart=/usr/bin/lsyncd -nodaemon /etc/lsyncd/lsyncd.conf.lua
+Restart=always
+RestartSec=3
+User=mikron2
+Group=mikron2
+KillMode=process
+
+[Install]
+WantedBy=multi-user.target
+
+```
+
+## 4. Установка прав на конфигурационные файлы (на обеих VM)
+
+```bash
+sudo chown root:root /etc/lsyncd/lsyncd.conf.lua
+sudo chmod 644 /etc/lsyncd/lsyncd.conf.lua
+
+```
+
+## 5. Запуск и включение сервиса (на обеих VM)
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable lsyncd
+sudo systemctl start lsyncd
+
+```
+
+## 6. Проверка работы
+
+```bash
+# Проверка статуса
+sudo systemctl status lsyncd
+
+# Проверка логов
+tail -f /var/log/lsyncd/lsyncd.log
+
+# Тестирование синхронизации
+touch /path/to/source/dir/testfile
+
+```
+
+### Демонстрация 
+
+![alt text](/Homework_Lesson8_UNIX_UTILITES_1/img/rsync_lsyncd.png)
+
+
 # Задание 4. *синхронизировать папки на двух вмках и ещё на GCP
 
-## Выполнил, не хватило времени оформить. Все 4 выходных был без доступа к ПК
+## Выполнил, не хватило времени оформить. Все 4 выходных был без доступа к ПК (пскольу форвординг портов не поддерживается браузером, использовал Zerotire для обхединения машин в общую сеть. очень просто и быстро)
