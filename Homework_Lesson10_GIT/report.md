@@ -75,7 +75,7 @@ git commit --amend --no-edit
 1. Переключитесь на main и создайте коммит:
 ```bash
 git checkout master
-echo "Контент для main" > main-file.txt
+echo "Контент для master" > main-file.txt
 git add main-file.txt
 git commit -m "add main file"
 ```
@@ -92,7 +92,7 @@ git reset --hard HEAD~1
 ```bash
 echo "Новые изменения" >> file1.txt
 git add file1.txt
-git commit -m "feat: add new changes"
+git commit -m "add new changes"
 
 ```
 
