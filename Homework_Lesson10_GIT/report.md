@@ -52,16 +52,16 @@ git branch # для проверки текущей ветки
 ```
 ![alt text](/Homework_Lesson10_GIT/img/step_5.png)
 
-## Задание 4: Использование amend
+## Задание 4: amend
 
-1. Создайте коммит:
+1. Создаем коммит:
 ```bash
 echo "Новый контент" > file3.txt
 git add file3.txt
 git commit -m "add third file"
 ```
 
-2. Внесите дополнительные изменения:
+2. Внесем дополнительные изменения:
 ```bash
 echo "." >> file3.txt
 git add file3.txt
@@ -72,7 +72,7 @@ git commit --amend --no-edit
 
 ## Задание 5-6: Перемещение коммита в новую ветку
 
-1. Переключитесь на main и создайте коммит:
+1. Переключимся на master и создадим коммит:
 ```bash
 git checkout master
 echo "Контент для master" > main-file.txt
@@ -81,7 +81,7 @@ git commit -m "add main file"
 ```
 ![alt text](/Homework_Lesson10_GIT/img/step_7.png)
 
-2. Создайте новую ветку и переместите коммит:
+2. Создадим новую ветку и переместите коммит:
 ```bash
 git branch new-branch
 git reset --hard HEAD~1
@@ -99,7 +99,7 @@ git commit -m "add new changes"
 ## Задание 8: Отмена изменений через checkout
 
 ```bash
-# Сохраните хеш текущего коммита
+# Сохраним хеш текущего коммита
 git log --oneline # копируем хеш
 git checkout <hash> file1.txt
 ```
