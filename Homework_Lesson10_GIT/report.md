@@ -21,54 +21,36 @@ https://youtu.be/XRV9kai-3mc (небольшая помощь, если запу
 
 ## Задание 1: Создание коммитов
 
-1. Создайте несколько файлов и коммитов:
-```bash
-# Создание первого файла
-echo "Первый файл" > file1.txt
-git add file1.txt
-git commit -m "feat: add first file"
-
-# Создание второго файла
-echo "Второй файл" > file2.txt
-git add file2.txt
-git commit -m "feat: add second file"
-
-# Изменение первого файла
-echo "Обновленное содержимое" >> file1.txt
-git add file1.txt
-git commit -m "feat: update first file"
-
-# И так далее до 5-10 коммитов
-```
+![alt text](/Homework_Lesson10_GIT/img/step_1.png)
 
 2. Просмотр лога коммитов:
 ```bash
 git log --oneline
-# Сделайте скриншот вывода для отчёта
 ```
+![alt text](/Homework_Lesson10_GIT/img/step_2.png)
 
 ## Задание 2: Использование reflog
 
 1. Просмотр истории действий:
 ```bash
 git reflog
-# Сделайте скриншот
 ```
+![alt text](/Homework_Lesson10_GIT/img/step_3.png)
 
 2. Переход к предыдущему коммиту:
 ```bash
 # Выберите хеш нужного коммита из reflog
 git checkout HEAD~1 # или git checkout <hash>
-# Сделайте скриншот
 ```
+![alt text](/Homework_Lesson10_GIT/img/step_4.png)
 
 ## Задание 3: Создание новой ветки
 
 ```bash
 git checkout -b develop
 git branch # для проверки текущей ветки
-# Сделайте скриншот
 ```
+![alt text](/Homework_Lesson10_GIT/img/step_5.png)
 
 ## Задание 4: Использование amend
 
@@ -76,7 +58,7 @@ git branch # для проверки текущей ветки
 ```bash
 echo "Новый контент" > file3.txt
 git add file3.txt
-git commit -m "feat: add third file"
+git commit -m "add third file"
 ```
 
 2. Внесите дополнительные изменения:
@@ -84,24 +66,25 @@ git commit -m "feat: add third file"
 echo "." >> file3.txt
 git add file3.txt
 git commit --amend --no-edit
-# Сделайте скриншот
 ```
+
+![alt text](/Homework_Lesson10_GIT/img/step_6.png)
 
 ## Задание 5-6: Перемещение коммита в новую ветку
 
 1. Переключитесь на main и создайте коммит:
 ```bash
-git checkout main
+git checkout master
 echo "Контент для main" > main-file.txt
 git add main-file.txt
-git commit -m "feat: add main file"
+git commit -m "add main file"
 ```
+![alt text](/Homework_Lesson10_GIT/img/step_7.png)
 
 2. Создайте новую ветку и переместите коммит:
 ```bash
 git branch new-branch
 git reset --hard HEAD~1
-# Сделайте скриншот
 ```
 
 ## Задание 7: Локальные изменения
@@ -110,7 +93,7 @@ git reset --hard HEAD~1
 echo "Новые изменения" >> file1.txt
 git add file1.txt
 git commit -m "feat: add new changes"
-# Сделайте скриншот
+
 ```
 
 ## Задание 8: Отмена изменений через checkout
@@ -119,8 +102,8 @@ git commit -m "feat: add new changes"
 # Сохраните хеш текущего коммита
 git log --oneline # копируем хеш
 git checkout <hash> file1.txt
-# Сделайте скриншот
 ```
+![alt text](/Homework_Lesson10_GIT/img/step_8.png)
 
 ## Задание 9: Полный сброс
 
@@ -135,6 +118,6 @@ git reset --hard <hash-первого-коммита>
 ```bash
 cd ..
 rm -rf git-practice
-git clone https://github.com/ваш-username/git-practice.git
+git clone git@github.com:mikroNQ/Personal_GIT_Task.git
 ```
 
