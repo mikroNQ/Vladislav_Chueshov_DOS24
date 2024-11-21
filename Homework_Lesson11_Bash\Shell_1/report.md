@@ -12,3 +12,34 @@
 имена файлов, в содержимом которых присутствует заданная строка, и
 их размер. Если к какому-либо каталогу нет доступа, необходимо
 вывести соответствующее сообщение и продолжить выполнение
+
+
+# Выполнение
+
+## Задание 1
+
+
+1. Переходим в директорию:
+```bash
+cd /Users/vladislavchueshov/Desktop/Vladislav_Chueshov_DOS24/Homework_Lesson11_Bash\Shell_1
+```
+
+2. Делаем скрипт исполняемым:
+```bash
+chmod +x find_files.sh
+```
+![alt text](/Homework_Lesson11_Bash\Shell_1/img/task_1.png)
+
+3. Запускаем скрипт, указав три аргумента:
+```bash
+./find_files.sh res.txt ~/Desktop png
+```
+где:
+- res.txt - имя файла, куда запишется результат
+- ~/Desktop - путь к папке, где ищем файлы (в данном случае Рабочий стол)
+- png - расширение файлов, которые ищем
+
+![alt text](/Homework_Lesson11_Bash\Shell_1/img/task_1_01.png)
+
+
+
