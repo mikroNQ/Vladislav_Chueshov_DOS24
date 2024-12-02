@@ -43,3 +43,6 @@ chmod +x find_files.sh
 
 
 
+# Задание 2
+
+![alt text](/Homework_Lesson11_Bash\Shell_1/img/find_text_file.png)
